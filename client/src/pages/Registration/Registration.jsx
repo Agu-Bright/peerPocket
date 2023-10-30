@@ -99,14 +99,10 @@ const Registration = () => {
   const handleRegisterUser = async () => {
     try {
       setOpen(true);
-      const res = await axios.post(
-        `http://localhost:5000/api/v1/register`,
-        data,
-        {
-          withCredentials: true,
-          credentials: "include",
-        }
-      );
+      const res = await axios.post(`/api/v1/register`, data, {
+        withCredentials: true,
+        credentials: "include",
+      });
       setUser(res?.data?.user);
       setOpen(false);
       navigate("/dashboard");

@@ -7,7 +7,7 @@ const PORT = process.env.PORT;
 const errorMiddleware = require("./middleware/error");
 const bodyParser = require("body-parser");
 const app = express();
-
+const path = require("path");
 //routes
 const authRoute = require("./routes/authRoute");
 const loanRoute = require("./routes/loanRoute");
@@ -42,10 +42,22 @@ app.use(cookieParser());
 
 //app routes goes here guys
 app.use("/api/v1", authRoute);
-app.use("api/v1/peerloan", loanRoute);
+app.use("/api/v1/peerloan", loanRoute);
 app.use("/api/v1/transfer", transferRoute);
 
 app.use(errorMiddleware);
+
+//serve static assets
+if (
+  process.env.NODE_ENV === "PRODUCTION" ||
+  process.env.NODE_ENV == "staging"
+) {
+  app.use(express.static("client/dist"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/client/build/index.html"));
+  });
+}
 
 //start server
 const start = async () => {

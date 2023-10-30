@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/v1/me", {
+        const { data } = await axios.get("/api/v1/me", {
           withCredentials: true,
           credentials: "include",
         });
